@@ -1,0 +1,16 @@
+---
+version: 5
+defaults:
+  datadir: /usr/share/systemconfig/hiera
+  data_hash: yaml_data
+hierarchy:
+  - name: "Zone-specific per-node data"
+    path: "%{facts.mydomain}:%{facts.myzone}/%{facts.myfqdn}.yaml"
+  - name: "Zone-specific per-domain data (e.g. zone wide list of users with accounts)"
+    path: "%{facts.mydomain}:%{facts.myzone}/common.yaml"
+  - name: "Per-node data (ignoring environment)"
+    path: "%{facts.mydomain}/%{facts.myfqdn}.yaml"
+  - name: "Common per-domain data (e.g. zone wide list of users with accounts)"
+    path: "%{facts.mydomain}/common.yaml"
+  - name: "General recommended defaults for all environments"
+    path: "global.yaml"

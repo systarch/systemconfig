@@ -1,0 +1,20 @@
+---
+version: 2
+groups:
+  - name: other
+    targets:
+      - _plugin: baseline
+        zone: '!(prod|dev)'
+  - name: prod
+    targets:
+      - _plugin: baseline
+        zone: prod
+  - name: preprod
+    targets:
+      - _plugin: baseline
+        zone: preprod
+  - name: dev
+    targets:
+      - _plugin: baseline
+        zone: dev
+

@@ -1,0 +1,46 @@
+---
+fixtures:
+  symlinks:
+    systarch-gitlab: site-modules/systarch-gitlab
+    puppet-rsnapshot: site-modules/puppet-rsnapshot
+    systarch-testhub: site-modules/systarch-testhub
+    Makefile: site-modules/Makefile
+    systarch-backupagent: site-modules/systarch-backupagent
+    baseline: site-modules/baseline
+    systarch-webserver: site-modules/systarch-webserver
+    selfsigned: site-modules/selfsigned
+  repositories:
+    fail2ban:
+      repo: https://github.com/voxpupuli/puppet-fail2ban.git
+      ref: master
+    mailhog:
+      repo: git@github.com:systarch/systarch-mailhog.git
+      ref: 21cc34d4c9c88fa408652acc8a27f12046204df4
+  forge_modules:
+    stdlib:
+      repo: puppetlabs-stdlib
+      ref: 6.2.0
+    locales:
+      repo: saz-locales
+      ref: 2.5.1
+    ssh:
+      repo: saz-ssh
+      ref: 6.1.0
+    letsencrypt:
+      repo: puppet-letsencrypt
+      ref: 5.0.0
+    postfix:
+      repo: camptocamp-postfix
+      ref: 1.10.0
+    apache:
+      repo: puppetlabs-apache
+      ref: 5.4.0
+    mysql:
+      repo: puppetlabs-mysql
+      ref: 10.1.0
+    virtualbox:
+      repo: puppet-virtualbox
+      ref: 4.0.1
+    accounts:
+      repo: puppetlabs-accounts
+      ref: 6.1.0

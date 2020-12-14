@@ -1,0 +1,12 @@
+---
+# virtual machine on hostonly-network bootstrap 172.30.30.*
+inventory::indicator: {ip: "172.30.30.2"}
+
+modules:
+  - selfsigned # only needed for issuing certificates, e.g. on the build or signing service.
+  - metrics
+
+baseline::certificates: {} # selfsigned module declares all certificates in this realm!
+
+# Exception for the build server: we occasionally trash all keys, which also removes the /etc/ssl/certs...
+selfsigned::ca_root: /home/vagrant/keys

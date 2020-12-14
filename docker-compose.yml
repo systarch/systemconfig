@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  systemconfig-buildtools:
+    build:
+      context: .
+      dockerfile: src/buildtools-container/Dockerfile
+    entrypoint: make dist/systemconfig.deb
+    volumes:
+      - type: bind
+        source: .
+        target: /src

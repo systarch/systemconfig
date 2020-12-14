@@ -1,0 +1,35 @@
+---
+inventory::indicator: {ip: "10.0.2.15"}
+
+modules:
+  - webserver
+
+baseline::owner: wilee.coyote@acme.inc # 
+baseline::organization_name: ~ 'Acme Rocket-Powered Products, Inc.'
+baseline::zone: dev
+
+letsencrypt::email: "%{::baseline::owner}"
+letsencrypt::renew_cron_ensure: 'present'
+letsencrypt::renew_cron_minute: 19
+letsencrypt::renew_cron_hour: 1
+letsencrypt::renew_cron_monthday: '1-31/2'
+
+# if relaying: Who is the buddy? FQDN please
+# baseline::postfix_relayhost: mail.acme-inc.domain | direct | mailhog
+baseline::postfix_relayhost: mailhog
+
+# For a standard production machine: keep as fact 'myfqdn'
+# For a development machine: switch to 'localhost'
+webserver::primary_domain: "%{facts.myfqdn}"
+
+# List the certificates that should be requested on this machine
+baseline::certificates: {}
+
+# General fail2ban settings
+fail2ban::bantime: 600
+fail2ban::email: "fail2ban@%{::fqdn}"
+fail2ban::sender: "fail2ban@%{::fqdn}"
+fail2ban::maxretry: 3
+fail2ban::whitelist:
+  - '127.0.0.1/8'
+  - '192.168.178.0/24'

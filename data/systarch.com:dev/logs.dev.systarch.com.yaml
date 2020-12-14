@@ -1,0 +1,30 @@
+---
+# virtual machine on hostonly-network bootstrap 172.30.30.*
+inventory::indicator: {ip: "172.30.30.4"}
+
+modules:
+  - logserver
+
+accounts::user_list:
+  root:
+    sshkeys:
+      - &systarch_sshkey 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3AqGbDleLoGJffwPwrxW8t+Hqp0hvzG2mNkry8vr7ZntKnQw65aIFBuFzBgSnKZzHrd7atBoyBZsvNjnfEH7V+Fm8mpoJ1hPVIk9UUXaH77OXsBUuDNwYPwIgG3HH+mg/IuZyrTrHmhCp2bfrvgWOlyBWvzIn4JZBz08LuBl2eVhIgNwlC+qXL6tigv8kOCxsKAYzUPU758VLXD/LZA8MdBNdN+49Qa0OMgTzoFC/uDWwUZQnvUfVy7Tv31KWM5iADl1rWQf7hYVMpXIdmJExYetMDFCPse2AZIRAoo7n2f/SH6TYc/Xve6biqEFe3rxx+t/WQx/ayfzwhWTTQaA+WKKbqAmJNGU17GOa29ygAxjy2fT/cQ6NUyUlkjGEJ5SPkawhw0IfPsK6vMwtBoMJRHRQ6Vn8bYLzOXqpleyqeBqwolb8CGUBgPQfgWWM7SBnETAe225MZC3TeaZu5Fmt0VrsE/oejkglx3oVyReVG/oV8Ks/sBB8gHGTSZEeZcft6JgnDkxAfUNvb/q2XlNpkLC/sVw1nZt7PzBAKNzvAW68kkY15gZP31Fc6Wo0mf3udDIgmx6f54zEya3ljLi6cfaJp0vFw1sYH/a6YXvF45pjgZx8SZuucELFM7cN6QGyqYYfm+FmbCPx0fMKBeMxdVC9kdzmTuerfVV43eCy0w== spiff@Beats-MacBook-Pro.local'
+  vagrant:
+    sshkeys:
+      - *systarch_sshkey
+
+baseline::certificates:
+  "selfsigned::server_certificate:%{facts.myfqdn}" :
+    ensure: present
+    domains: ~
+
+# Send all logs to separate directories for each hostname
+logserver::rsyslog:
+  server_dir: '/data/logs/'
+  custom_config: 'rsyslog/server-hostname.conf.erb'
+  rotate: daily
+  ssl: true
+  ssl_ca: /etc/letsencrypt/live/brick.systarch.com/fullchain.pem
+  ssl_cert: /etc/letsencrypt/live/brick.systarch.com/cert.pem
+  ssl_key: /etc/letsencrypt/live/brick.systarch.com/privkey.pem
+

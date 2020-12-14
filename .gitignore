@@ -1,0 +1,14 @@
+/.idea/
+/.vagrant/
+/.librarian/
+
+/backups/
+/build/
+/dist/
+
+/.tmp/
+/modules
+
+/Puppetfile.lock
+/Gemfile.lock
+
