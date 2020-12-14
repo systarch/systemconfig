@@ -1,0 +1,9 @@
+
+
+== `make` targets
+
+`dist/systemconfig.deb`::
+The systemconfig Debian package for installation in virtual machines.
+
+`list-systems`::
+show a list of all systems configured in the Makefile that can be created with `make {systemname}`
