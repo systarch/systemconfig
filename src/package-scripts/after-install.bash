@@ -1,6 +1,6 @@
 set -x
 
-mkdir -p /etc/puppet /etc/puppetlabs/puppet
+mkdir -p /etc/puppetlabs/puppet
 install -m 0444 /usr/share/systemconfig/hiera.yaml /etc/puppetlabs/puppet/hiera.yaml
 install -m 0444 /usr/share/systemconfig/puppet.conf /etc/puppetlabs/puppet/puppet.conf
 install -m 0444 /usr/share/systemconfig/environment.conf /etc/puppetlabs/code/environments/production/environment.conf

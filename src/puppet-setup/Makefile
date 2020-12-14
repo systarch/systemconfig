@@ -31,6 +31,7 @@ build-puppet-setup: prepare-puppet-setup build-puppet-setup-hiera build-puppet-s
 
 build-puppet-setup-modules: prepare-puppet-setup
 	@echo "----< $@ >--------------------------------"
+	librarian-puppet install
 	rsync \
 	  -ah \
 	  --delete \
@@ -50,3 +51,5 @@ prepare-puppet-setup:
 	mkdir -p build/etc/puppetlabs/code/environments/production/bin
 	mkdir -p build/etc/puppetlabs/code/environments/production/modules
 	mkdir -p build/usr/share/systemconfig/hiera
+
+.PHONY: prepare-puppet-setup build-puppet-setup-hiera build-puppet-setup-modules

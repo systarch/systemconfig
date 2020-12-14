@@ -2,7 +2,7 @@
 
 # escalate to root if we're not
 [ "$(id -un)" == 'root' ] || {
-  SCRIPT=$(readline -f "${0}")
+  SCRIPT=$(readlink -f "${0}")
   exec sudo "${SCRIPT}";
   exit $?;
 }

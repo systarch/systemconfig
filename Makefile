@@ -16,12 +16,14 @@ endif
 all: clean
 	docker-compose up --build
 
-BUILD_ITEMS = dist/$(IMAGE_NAME).deb dist/Packages dist/Packages.gz
+BUILD_ITEMS =
+DIST_ITEMS = dist/$(IMAGE_NAME).deb dist/Packages dist/Packages.gz
 
 include src/buildtools-container/Makefile
 include src/puppet-setup/Makefile
+include src/vagrant/Makefile
 
-build: $(BUILD_ITEMS)
+build: $(DIST_ITEMS)
 	# Create package files if we're on a Debian
 	[ -z "$(which apt-ftparchive)" ] || cd dist && {\
 	  apt-ftparchive packages . > ./Packages;\
@@ -29,7 +31,7 @@ build: $(BUILD_ITEMS)
 	}
 
 # create the systemconfig package
-dist/$(IMAGE_NAME).deb: prepare
+dist/$(IMAGE_NAME).deb: prepare $(BUILD_ITEMS)
 	rm -f "${@}"
 	install -m0555 ./src/package-scripts/systemconfig-apply.bash build/usr/bin/systemconfig-apply
 	fpm \
@@ -57,9 +59,3 @@ prepare:
 clean:
 	rm -rf build dist
 
-gitlab.dev.systarch.com:
-	vagrant ssh gitlab.dev.systarch.com -c \
-	  'sudo dpkg -r systemconfig; \
-	   sudo dpkg -i /dist/systemconfig.deb; \
-	   systemconfig-apply; \
-	  '

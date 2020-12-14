@@ -10,9 +10,9 @@ Vagrant.configure("2") do |config|
   # First clients that build themselves from the repo of their domain
   # TODO read this from data/*:dev/*.yaml
   {
-      'dev.systarch.com'  => { :cpus => 2, :ip => '172.31.31.10', :memory => 4096 },
-      'repo.dev.systarch.com' => { :cpus => 4, :ip => '172.31.31.11', :memory => 8192 },
-      'gitlab.dev.systarch.com'  => { :cpus => 2, :ip => '172.31.31.12', :memory => 4096 },
+      # 'dev.systarch.com'  => { :cpus => 2, :ip => '172.31.31.10', :memory => 4096 },
+      'repo.dev.systarch.com' => { :cpus => 4, :ip => '172.30.30.3', :memory => 8192 },
+      'gitlab.dev.systarch.com'  => { :cpus => 2, :ip => '172.30.30.6', :memory => 4096 },
   }.each do |hostname, parameters|
     config.vm.define hostname do |cfg|
       config.vm.box = "systarch/debian10"
@@ -55,11 +55,13 @@ Vagrant.configure("2") do |config|
         override.vm.provision :shell,
                               :name => 'install /dist/systemconfig.deb provided by host',
                               :path => 'src/vagrant/000-install-systemconfig-from-dist.bash',
-                              :privileged => true
+                              :privileged => true,
+                              :run => "always"
         override.vm.provision "shell",
                               name: "Apply puppet recipes for #{hostname}",
-                              inline: "/usr/local/bin/systemconfig-apply",
-                              :privileged => false
+                              inline: "systemconfig-apply",
+                              :privileged => false,
+                              :run => "always"
       end
     end
   end
